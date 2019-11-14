@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <title> Wallet</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h2>개인키 가져오기</h2>
+    </header>
+
+    <section class="content">
+      <nav>
+        <img class="logo" src="images/ether_logo.png">
+      </nav>
+      <main class="mainPage">
+        <div class="context">
+          <div class="item" id="text">userID</div>
+          <div class="item"><input class="input_text" type="text" size="40" id="userID"></div>
+          <div class="item" id="text">Password</div>
+          <div class="item"><input class="input_text" type="password" size="44" id="password" style="font-family:''"></div>
+          <div class="item" id="text">PrivateKey</div>
+          <div class="item"><input class="input_text" type="password" size="44" id="privateKey" style="font-family:''"></div>
+          <div class="div5"><input type="submit" value="Create" id="getResult"></button></div>
+        </div>
+      </main>
+    </section>
+
+    <footer>
+      <button type="button" id="btn2">뒤로가기</button>
+    </footer>
+    <script>
+      $(document).ready(() => {
+        $('#getResult').click(function () {
+          $.ajax({
+            url: 'http://175.125.21.32:3000/privatekey/signup',
+            dataType: 'json',
+            type: 'POST',
+            data: {
+              'id': $('#userID').val(),
+              'password': $('#password').val(),
+              'privateKey': $('#privateKey').val()
+            },
+            success: function (result, body, { status }) {
+              if (status === 200) {
+                alert("계정생성에 실패하셨습니다.")
+              } else if (status === 202) {
+                alert("회원 가입되었습니다.")
+                window.location.href = `http://175.125.21.32:3000/`
+              }
+            
+            },
+            error: function (request, status, error) {
+            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+          }
+          });
+        })
+      })
+
+      $('#btn2').click(function () {
+        window.location.href = "http://175.125.21.32:3000/"
+      })
+    </script>
+
+  </div>
+</body>
+
+</html>

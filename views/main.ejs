@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <title> <%= userid %>'s Wallet</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h2><%= userid %>'s Wallet</h2>
+    </header>
+
+    <section class="content">
+      <nav>
+        <img class="logo" src="images/ether_logo.png">
+      </nav>
+      <main class="mainPage">
+        <div class="context">
+          <div class="item2" id="text">Address </div>
+          <div class="item2 address" id="text1"><%= public_key %></div>
+          <div style="padding-bottom: 15px;"><button id='copy'>Copy</button></div>
+          <div class="item2" id="text">Balance</div>
+          <div class="item2" id="text1"> <%= balance %> ETH </div>
+          <div id="text1">
+            <button type="button" id="btn1">Faucet(입금)</button>
+            <button type="button" id="btn2">출 금</button>
+          </div>
+          <div id="text"> History</div>
+          <div id="text1">
+            <ul id="txns">
+              <% for(let i = 0; i< 7; i++){%>
+              <li><a href="https://ropsten.etherscan.io/tx/<%=list[i] %>"><%= list[i] %></a></li>
+              <%}%>
+            </ul>
+      
+          </div>
+
+        </div>
+
+      </main>
+    </section>
+
+    <footer>
+        <button type="button" id="btn3">개인키 내보내기</button>
+      <button type="button" id="btn4">로그아웃</button>
+      
+    </footer>
+
+    <script>
+      $('#copy').click(function () {
+        let address = $('.address').text()
+        copyToClipboard(address)
+      })
+
+      $('#btn2').click(function () {
+        window.location.href = 'http://175.125.21.32:3001/send'
+      })
+      $('#btn3').click(function () {
+        window.location.href = 'http://175.125.21.32:3001/privatekey/export'
+      })
+
+
+      $(document).ready(() => {
+        $('#btn4').click(function () {
+          $.ajax({
+            url: 'http://175.125.21.32:3001/main/destroy',
+            success: () => {
+              window.location.href = 'http://175.125.21.32:3001/'
+            }
+          })
+        })
+      })
+
+      $(document).ready(() => {
+        $('#btn1').click(function () {
+          let address = $('.address').text()
+          $.ajax({
+            url: 'https://faucet.metamask.io',
+            type: 'post',
+            data: address,
+            success: (txHash, body, { status }) => {
+              // 서버로 저장되는 코드
+                 $.ajax({
+                url: 'http://175.125.21.32:3001/main/txdb',
+                type: 'post',
+                data: { txHash: JSON.stringify(txHash) }
+              })
+            },
+            error: ({ status }) => {
+              const statusMsg = {
+                "429": () => alert('Too many request'),
+                "500": () => alert('Fauset ServerError'),
+              }
+              let msg = statusMsg[`${status}`]
+
+              if (msg) msg()
+            }
+          })
+        })
+      })
+
+
+      function copyToClipboard(val) {
+        var t = document.createElement("textarea");
+        document.body.appendChild(t);
+        t.value = val;
+        t.select();
+        document.execCommand('copy');
+        document.body.removeChild(t);
+      }
+    </script>
+
+  </div>
+
+</body>
+
+</html>

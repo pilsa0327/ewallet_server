@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <title> Wallet</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h2> Send coin</h2>
+    </header>
+    <section class="content">
+      <nav>
+        <img class="logo" src="images/ether_logo.png">
+      </nav>
+      <main class="mainPage">
+        <div class="context">
+          <div class="item" id="text">To</div>
+          <div class="item"><input class="input_text" type="text" size="40" id="toAddress" placeholder="받는 계정"></div>
+          <div class="item" id="text">Gas price</div>
+          <div class="item"><input class="input_text" type="text" size="40" id="gasPrice" value="21"></div>
+          <div class="item" id="text">Value</div>
+          <div class="item"><input class="input_text" type="text" size="40" id="value" placeholder="전송량"></div>
+          <div class="div5"><input type="submit" value="Send" id="getResult"></button></div>
+          <div class="item"><input class="input_text" type="hidden" size="40" id="fromAddress"></div>
+        </div>
+      </main>
+    </section>
+    <footer>
+      <button type="button" id="btn2">뒤로가기</button>
+    </footer>
+
+    <script>
+      $(document).ready(
+      $('#getResult').click(function () {
+        $.ajax({
+          type: 'POST',
+          url: 'http://175.125.21.32:3001/send',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            'toAddress': $('#toAddress').val(),
+            'gasPrice': $('#gasPrice').val(),
+            'value': $('#value').val(),
+          }),
+          success: function (result, body, {status}) {
+            const statusMsg ={
+              "200": () => alert('잔액 부족 혹은 주소가 올바르지 않습니다.'),
+              "201": () => window.location.href = 'http://175.125.21.32:3001/main'
+            }  
+            let msg = statusMsg[`${status}`]
+            if(msg) msg()
+          }
+        });
+      })
+    )
+
+      $('#btn2').click(function () {
+        window.location.href = "http://175.125.21.32:3001/main"
+      })
+    </script>
+
+  </div>
+</body>
+
+</html>

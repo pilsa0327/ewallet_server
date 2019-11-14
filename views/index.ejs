@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <title> Wallet</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h2>Hello! Wallet</h2>
+    </header>
+    
+    <section class="content">
+        <nav>
+            <img class="logo" src="images/ether_logo.png">
+        </nav>
+        <main class="mainPage">
+            <div class="context">
+                <div class="item" id="text">userID</div>
+                <div class="item"><input class="input_text" type="text" size="40" id="userID"></div>
+                <div class="item" id="text">Password</div>
+                <div class="item"><input class="input_text" type="password" size="44" id="password" style="font-family:''"></div>
+                <div class="div5"><input type="submit" value="L o g i n" id="getResult"></button></div>
+                <div>
+                  <button type="button" id ="btn1" >계정 생성하기</button>
+                  <button type="button" id="btn2">계정 가져오기</button>
+                </div>
+              </div>
+        </main>
+    </section>
+
+    <footer>
+
+    </footer>
+    <script>
+      $('#getResult').click(function () {
+        $.ajax({
+          url: 'http://175.125.21.32:3001/main',
+          dataType: 'json',
+          type: 'POST',
+          data: {
+            'id': $('#userID').val(),
+            'password': $('#password').val()
+          },
+          success: function (result, body, {status}) {
+            if(status === 200){
+              alert("아이디 또는 비밀번호가 일치하지 않습니다.")
+            } else if(status === 201){
+              window.location.href = `http://175.125.21.32:3001/main`
+            }
+          }
+        });
+      })
+
+      $("#btn1").click(
+        function(){
+          window.location.href = ' http://175.125.21.32:3001/create'
+        }
+      )
+      $("#btn2").click(
+      function(){
+        window.location.href = ' http://175.125.21.32:3001/privatekey'
+      }
+    )
+
+        
+    </script>
+
+  </div>
+</body>
+</html>
