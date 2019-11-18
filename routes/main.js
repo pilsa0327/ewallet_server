@@ -13,12 +13,7 @@ router.use(session({
   secret: 'session_cookie_secret',
   resave: false,
   saveUninitialized: true,
-  store: new MySQLStore({
-    host: 'localhost',
-    user: 'root',
-    password: '1q2w3e4r%T',
-    database: 'ewallet'
-  })
+  store: new MySQLStore(db.info)
 }))
 
 /* GET users listing. */
@@ -33,7 +28,7 @@ router.get('/', async function (req, res, next) {
     balance = web3.utils.fromWei(wei, 'ether')
     return balance
   })
-  db.query(`SELECT * FROM tx_hash WHERE userid= ?`, [userid], (err, data) => {
+  db.mysql.query(`SELECT * FROM tx_hash WHERE userid= ?`, [userid], (err, data) => {
     if (err) {
       list = [];
     } else {
@@ -48,7 +43,13 @@ router.get('/', async function (req, res, next) {
 router.post('/', function (req, res, next) {
   let { id, password } = req.body
 
-  db.query('SELECT * FROM wallet_info where userid = ?', [id], function (err, userInfo) {
+  db.mysql.query('SELECT * FROM wallet_info where userid = ?', [id], function (err, userInfo){
+    if(err){
+      return res.status(200).json({})
+    }
+    if(!userInfo.length){
+      return res.status(200).json({})
+    }
      bcrypt.compare(password, userInfo[0].password, (err, value) => {
       if (value === true) {
         req.session.is_logined = true;
@@ -69,7 +70,7 @@ router.post('/txdb', async function (req, res, next) {
   let { txHash } = req.body;
   let { userid } = req.session;
   txHash = txHash.substring(1, 67)
-  db.query('INSERT INTO tx_hash(userid, txhash) VALUES(?, ?)', [userid, txHash],  await function (err, result) {
+  db.mysql.query('INSERT INTO tx_hash(userid, txhash) VALUES(?, ?)', [userid, txHash],  await function (err, result) {
     return res.json({})
   })
 

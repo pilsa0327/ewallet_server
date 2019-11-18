@@ -22,9 +22,9 @@
       <main class="mainPage">
         <div class="context">
           <div class="item dis" id="text">userID</div>
-          <div class="item dis"><input class="input_text" type="text" size="40" id="userID"></div>
+          <div class="item dis"><input class="input_text" type="text" id="userID"></div>
           <div class="item dis" id="text">Password</div>
-          <div class="item dis"><input class="input_text" type="password" size="44" id="password"
+          <div class="item dis"><input class="input_text" type="password" id="password"
               style="font-family:''"></div>
           <div class="div5 dis"><input type="submit" value="Submit" id="getResult"></button></div>
           <div class="hide" id="text">PriavateKey</div>
@@ -46,7 +46,7 @@
       $(document).ready(() => {
         $('#getResult').click(function () {
           $.ajax({
-            url: 'http://175.125.21.32:3001/privatekey/export',
+            url: '/privatekey/export',
             dataType: 'json',
             type: 'POST',
             data: {
@@ -71,7 +71,7 @@
       })
 
       $('#btn2').click(function () {
-        window.location.href = "http://175.125.21.32:3001/main"
+        window.location.href = "/main"
       })
 
       function copyToClipboard(val) {

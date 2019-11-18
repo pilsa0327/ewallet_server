@@ -1,12 +1,18 @@
-var mysql = require('mysql');
+const mySql = require('mysql');
 
-var db = mysql.createConnection({
+let info = {
   host     : 'localhost',
   user     : 'root',
-  password : '1q2w3e4r%T',
+  // password : '1q2w3e4r%T',
+  password : '111111',
   database : 'ewallet'
-});
+};
 
-db.connect();
+let mysql = mySql.createConnection(info);
 
-module.exports=db;
+mysql.connect();
+
+module.exports = {
+  mysql,
+  info
+}

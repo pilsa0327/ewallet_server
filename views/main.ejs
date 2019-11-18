@@ -57,19 +57,19 @@
       })
 
       $('#btn2').click(function () {
-        window.location.href = 'http://175.125.21.32:3001/send'
+        window.location.href = '/send'
       })
       $('#btn3').click(function () {
-        window.location.href = 'http://175.125.21.32:3001/privatekey/export'
+        window.location.href = '/privatekey/export'
       })
 
 
       $(document).ready(() => {
         $('#btn4').click(function () {
           $.ajax({
-            url: 'http://175.125.21.32:3001/main/destroy',
+            url: '/main/destroy',
             success: () => {
-              window.location.href = 'http://175.125.21.32:3001/'
+              window.location.href = '/'
             }
           })
         })
@@ -85,7 +85,7 @@
             success: (txHash, body, { status }) => {
               // 서버로 저장되는 코드
                  $.ajax({
-                url: 'http://175.125.21.32:3001/main/txdb',
+                url: '/main/txdb',
                 type: 'post',
                 data: { txHash: JSON.stringify(txHash) }
               })

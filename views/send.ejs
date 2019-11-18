@@ -20,13 +20,13 @@
       <main class="mainPage">
         <div class="context">
           <div class="item" id="text">To</div>
-          <div class="item"><input class="input_text" type="text" size="40" id="toAddress" placeholder="받는 계정"></div>
+          <div class="item"><input class="input_text" type="text" id="toAddress" placeholder="받는 계정"></div>
           <div class="item" id="text">Gas price</div>
-          <div class="item"><input class="input_text" type="text" size="40" id="gasPrice" value="21"></div>
+          <div class="item"><input class="input_text" type="text" id="gasPrice" value="21"></div>
           <div class="item" id="text">Value</div>
-          <div class="item"><input class="input_text" type="text" size="40" id="value" placeholder="전송량"></div>
+          <div class="item"><input class="input_text" type="text" id="value" placeholder="전송량"></div>
           <div class="div5"><input type="submit" value="Send" id="getResult"></button></div>
-          <div class="item"><input class="input_text" type="hidden" size="40" id="fromAddress"></div>
+          <div class="item"><input class="input_text" type="hidden" id="fromAddress"></div>
         </div>
       </main>
     </section>
@@ -39,7 +39,7 @@
       $('#getResult').click(function () {
         $.ajax({
           type: 'POST',
-          url: 'http://175.125.21.32:3001/send',
+          url: '/send',
           dataType: 'json',
           contentType: 'application/json',
           data: JSON.stringify({
@@ -50,7 +50,7 @@
           success: function (result, body, {status}) {
             const statusMsg ={
               "200": () => alert('잔액 부족 혹은 주소가 올바르지 않습니다.'),
-              "201": () => window.location.href = 'http://175.125.21.32:3001/main'
+              "201": () => window.location.href = '/main'
             }  
             let msg = statusMsg[`${status}`]
             if(msg) msg()
@@ -60,7 +60,7 @@
     )
 
       $('#btn2').click(function () {
-        window.location.href = "http://175.125.21.32:3001/main"
+        window.location.href = "/main"
       })
     </script>
 

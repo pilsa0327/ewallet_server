@@ -13,12 +13,7 @@ router.use(session({
   secret: 'session_cookie_secret',
   resave: false,
   saveUninitialized: true,
-  store: new MySQLStore({
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    database: 'ewallet'
-  })
+  store: new MySQLStore(db.info)
 }))
 
 router.get('/', function (req, res, next) {
@@ -69,7 +64,7 @@ router.post('/' , async function (req, res, next) {
     if(err){
       return res.status(200).json({})
     }
-    db.query('INSERT INTO tx_hash(userid, txhash) VALUES(?, ?)', [userid, hash], function (err, result){
+    db.mysql.query('INSERT INTO tx_hash(userid, txhash) VALUES(?, ?)', [userid, hash], function (err, result){
       if(err){
         return res.status(200).json({})
       } else{

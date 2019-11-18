@@ -20,11 +20,11 @@
       <main class="mainPage">
         <div class="context">
           <div class="item" id="text">userID</div>
-          <div class="item"><input class="input_text" type="text" size="40" id="userID"></div>
+          <div class="item"><input class="input_text" type="text" id="userID"></div>
           <div class="item" id="text">Password</div>
-          <div class="item"><input class="input_text" type="password" size="44" id="password" style="font-family:''"></div>
+          <div class="item"><input class="input_text" type="password"  id="password" style="font-family:''"></div>
           <div class="item" id="text">Password 확인</div>
-          <div class="item"><input class="input_text" type="password" size="44" id="password2" style="font-family:''"></div>
+          <div class="item"><input class="input_text" type="password" id="password2" style="font-family:''"></div>
           <div class="div5"><input type="submit" value="Create" id="getResult"></button></div>
         </div>
       </main>
@@ -36,11 +36,8 @@
 
     <script>
       $('#getResult').click(function () {
-        console.log($('#userID').val())
-        console.log($('#password').val())
-
         $.ajax({
-          url: 'http://175.125.21.32:3001/create',
+          url: 'http://localhost:3001/create',
           dataType: 'json',
           type: 'POST',
           data: {
@@ -49,11 +46,10 @@
             'password2': $('#password2').val(),
           },
           success: function (result, body, {status}) {
-          
             const statusMsg = {
                 "200": () => alert('중복된 아이디가 존재합니다.'),
-                "201": () => {alert('회원 가입되었습니다'), window.location.href = `http://175.125.21.32:3001/`},
-                "202": () => alert('비밀번호를 확인해주세요.')
+                "201": () => {alert('회원 가입되었습니다'), window.location.href = `/`},
+                "202": () => alert(result.message)
               }
               let msg = statusMsg[`${status}`]
 
@@ -65,7 +61,7 @@
 
     
       $('#btn2').click(function(){
-        window.location.href = "http://175.125.21.32:3001/"
+        window.location.href = "/"
       })
     </script>
 
