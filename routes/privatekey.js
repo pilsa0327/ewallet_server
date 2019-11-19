@@ -24,6 +24,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/signup', async function (req, res, next) {
     let { id, password, privateKey } = req.body;
+    let idCheck = /^[A-za-z0-9]{5,15}/g;
+    let passwordCheck = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
     if (privateKey.length !== 64) {
         return res.status(200).json({message: "privateKey를 다시 확인해주세요." })
     }
