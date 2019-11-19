@@ -3,8 +3,8 @@ const mySql = require('mysql');
 let info = {
   host     : 'localhost',
   user     : 'root',
-  // password : '1q2w3e4r%T',
-  password : '111111',
+  password : '1q2w3e4r%T',
+  //password : '111111',
   database : 'ewallet'
 };
 
