@@ -1,20 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../databases/db')
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session)
 const Tx = require('ethereumjs-tx').Transaction;
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/25c7c08910c04b0c9be79c09f559652e'));
 const CryptoJS = require('crypto-js');
 
-router.use(session({
-  key: 'session_cookie_name',
-  secret: 'session_cookie_secret',
-  resave: false,
-  saveUninitialized: true,
-  store: new MySQLStore(db.info)
-}))
+
 
 router.get('/', function (req, res, next) {
   let { is_logined } = req.session;

@@ -1,20 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../databases/db')
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session)
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/25c7c08910c04b0c9be79c09f559652e'));
 const bcrypt = require('bcrypt-nodejs');
 const CryptoJS = require('crypto-js');
 
-router.use(session({
-  key: 'session_cookie_name',
-  secret: 'session_cookie_secret',
-  resave: false,
-  saveUninitialized: true,
-  store: new MySQLStore(db.info)
-}))
 
 /* GET users listing. */
 router.get('/', async function (req, res, next) {

@@ -37,7 +37,7 @@
     <script>
       $('#getResult').click(function () {
         $.ajax({
-          url: 'http://localhost:3001/create',
+          url: '/create',
           dataType: 'json',
           type: 'POST',
           data: {
@@ -52,14 +52,11 @@
                 "202": () => alert(result.message)
               }
               let msg = statusMsg[`${status}`]
-
-              if (msg) msg()
-            
+              if (msg) msg()   
           }
         });
       })
-
-    
+   
       $('#btn2').click(function(){
         window.location.href = "/"
       })
