@@ -31,7 +31,7 @@ router.post('/signup', async function (req, res, next) {
     privateKey = CryptoJS.AES.encrypt(privateKey, '123').toString()
 
     db.mysql.query('INSERT INTO wallet_info(userid, password, public_key, private_key) VALUES(?, ?, ?, ?)',
-        [id, password, account.address, account.privateKey], function (err, result) {
+        [id, password, account.address, privateKey], function (err, result) {
             if (err) {
                 return res.status(200).json({ message:"계정생성에 실패하셨습니다." })
             }
