@@ -31,7 +31,7 @@ router.post('/', function (req, res, next) {
     let { address, privateKey } = newAccount;
 
     password = bcrypt.hashSync(password);
-    privateKey = CryptoJS.AES.encrypt(privateKey, '123').toString()
+    privateKey = CryptoJS.AES.encrypt(privateKey, password2).toString()
 
     db.mysql.query('INSERT INTO wallet_info(userid, password, public_key, private_key) VALUES(?, ?, ?, ?)',
         [id, password, address, privateKey], function (err, result) {

@@ -154,16 +154,20 @@ footer button{
 #txns {
   list-style: none;
   font-size: 14px;
-  height: 180px;
+  height: 7rem;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding-top: 10px; 
+  width: 25rem;
 }
 
 #txns li {
   padding: 2px;
   width : 370px;
+  padding-right: 10px; 
   overflow:hidden;
   text-overflow: ellipsis;
+  
 }
 #txns li a{
   color: red
@@ -179,4 +183,33 @@ footer button{
   word-wrap: break-word;
   width : 340px;
   font-size: 18px;
+}
+.dropdown-menu {
+  position: absolute;
+  float: right;
+}
+
+.dropdown-menu .btn{
+  color: white;
+  border: none;
+  cursor: pointer;
+ 
+}
+  
+.dropdown-menu li{
+  color: black;
+  padding-top: 1px;
+  text-decoration: none;
+  display: block;
+  width: 25%;
+  
+  
+}
+
+.dropdown-menu li:hover{
+  background-color: #f1f1f1
+}
+
+#menu-hide {
+  display : none;
 }

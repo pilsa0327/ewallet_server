@@ -19,7 +19,28 @@
         <img class="logo" src="images/ether_logo.png">
       </nav>
       <main class="mainPage">
-        <div class="context">
+
+        <!-- 서버선택 -->
+          <div class="btn-group" style="float: right; margin: 5px 5px 0 0" >
+              <button type="button" id="Server" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                  aria-expanded="false" style="width: 100%;  margin-right: 20px; padding-right: 5px;">
+                  <%- network -%> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" id="menu-hide" role="menu" style="border: 0;">
+                  <li><button class="btn btn-info" onClick="web3server(this.id)" style="width: 103.73px; margin-bottom: 1px;"
+                          id="MainNet">MainNet</button></li>
+                  <li><button class="btn btn-info" onClick="web3server(this.id)" style="width: 103.73px; margin-bottom: 1px;"
+                          id="Ropsten">Ropsten</button></li>
+                  <li><button class="btn btn-info" onClick="web3server(this.id)" style="width: 103.73px; margin-bottom: 1px;"
+                          id="Rinkeby">Rinkeby</button></li>
+                  <li><button class="btn btn-info" onClick="web3server(this.id)" style="width: 103.73px; margin-bottom: 1px;"
+                          id="Kovan">Kovan</button></li>
+                  <li><button class="btn btn-info" onClick="web3server(this.id)" style="width: 103.73px; margin-bottom: 1px;"
+                          id="Goerli">Goerli</button></li>
+              </ul>
+          </div>
+
+        <div class="context" style="height: 24rem;">
           <div class="item2" id="text">Address </div>
           <div class="item2 address" id="text1"><%= public_key %></div>
           <div style="padding-bottom: 15px;"><button id='copy'>Copy</button></div>
@@ -62,7 +83,15 @@
       $('#btn3').click(function () {
         window.location.href = '/privatekey/export'
       })
-
+      $('#Server').click(function () {
+        console.log($('.dropdown-menu').attr('id'))
+        if( $('.dropdown-menu').attr('id') === 'menu-hide'){
+          $('.dropdown-menu').removeAttr('id')
+        } else {
+          $('.dropdown-menu').attr('id', 'menu-hide');
+        }
+      
+    })
 
       $(document).ready(() => {
         $('#btn4').click(function () {
@@ -103,7 +132,6 @@
         })
       })
 
-
       function copyToClipboard(val) {
         var t = document.createElement("textarea");
         document.body.appendChild(t);
@@ -112,6 +140,36 @@
         document.execCommand('copy');
         document.body.removeChild(t);
       }
+
+      // 서버선택
+      function web3server(network) {
+            const passData = {
+                network: network,
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/main/changeNetwork',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'JSON',
+                data: JSON.stringify(passData),
+                success: function (result, body, { status }) {
+                    //$('.block').addClass('hide')
+                    // $('.changeBlock').removeClass('hide')
+                    // $('')
+                    // $('#block').html(result)
+                    location.reload()
+
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+                complete: function () {
+
+                }
+            })
+        }
+        
+
     </script>
 
   </div>

@@ -3,8 +3,9 @@ const router = express.Router();
 const db = require('../databases/db')
 const Tx = require('ethereumjs-tx').Transaction;
 const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/25c7c08910c04b0c9be79c09f559652e'));
+let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/25c7c08910c04b0c9be79c09f559652e'));
 const CryptoJS = require('crypto-js');
+const bcrypt = require('bcrypt-nodejs');
 
 
 
@@ -17,22 +18,34 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/' , async function (req, res, next) {
-  let { toAddress, gasPrice, value} = req.body;
-  let { public_key, userid, private_key, is_logined } = req.session;
+  let { toAddress, gasPrice, value, password} = req.body;
+  let { public_key, userid, private_key, is_logined} = req.session;
+   
+ 
+  bcrypt.compare(password, req.session.password, (err, value) => {
+    if( value !== true) {
+      return res.status(200).json({})
+    }
+  })
+
+  if(req.session.web3) {
+    web3 = new Web3(new Web3.providers.HttpProvider(req.session.web3))
+  }
+
   if (!is_logined) {
     return res.redirect('/')
   }
   if(toAddress.length !== 42){
     return res.status(200).json({})
   }
-  let ckAddr = web3.utils.checkAddressChecksum(toAddress);
+  let ckAddr = web3.utils.isAddress(toAddress);
  
   if(ckAddr === false){
     return res.status(200).json({})
   }
 
   let gwei = 9
-  let decrypt = CryptoJS.AES.decrypt(private_key, '123')
+  let decrypt = CryptoJS.AES.decrypt(private_key, password)
   let decryptPrkey = decrypt.toString(CryptoJS.enc.Utf8)
   let privateKey = new Buffer.from(decryptPrkey.substring(2,), 'hex');
 

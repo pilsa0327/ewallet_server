@@ -19,6 +19,8 @@
       </nav>
       <main class="mainPage">
         <div class="context">
+          <div class="item" id="text">Check password</div>
+          <div class="item"><input class="input_text" type="password" id="password" style="font-family:''"></div>
           <div class="item" id="text">To</div>
           <div class="item"><input class="input_text" type="text" id="toAddress" placeholder="받는 계정"></div>
           <div class="item" id="text">Gas price</div>
@@ -46,6 +48,7 @@
             'toAddress': $('#toAddress').val(),
             'gasPrice': $('#gasPrice').val(),
             'value': $('#value').val(),
+            'password': $('#password').val(),
           }),
           success: function (result, body, {status}) {
             const statusMsg ={

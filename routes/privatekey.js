@@ -56,7 +56,7 @@ router.post('/export', function (req, res, next) {
     } else {
         bcrypt.compare(password, sessPassword, (err, value) => {
             if (value === true) {
-                let decrypt = CryptoJS.AES.decrypt(private_key, '123')
+                let decrypt = CryptoJS.AES.decrypt(private_key, password)
                 private_key = decrypt.toString(CryptoJS.enc.Utf8)
                 res.status(202).json({ 'private_key': private_key.substring(2) })
             } else {
